@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobTrack — Job Application Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">J</div>
+
+        <div>
+          <h1>JobTrack</h1>
+          <span>Application tracker</span>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-item active" data-view="dashboard">
+          <span>⌂</span> Dashboard
+        </button>
+
+        <button class="nav-item" data-view="applications">
+          <span>▣</span> Applications
+        </button>
+      </nav>
+
+      <div class="sidebar-tip">
+        <strong>Keep going.</strong>
+        <p>
+          Every application is one step closer to the right opportunity.
+        </p>
+      </div>
+
+    </aside>
+
+
+    <main class="main-content">
+
+      <header class="topbar">
+
+        <div>
+          <p class="eyebrow">YOUR JOB SEARCH</p>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+
+        <button class="primary-btn" id="openAddBtn">
+          + Add application
+        </button>
+
+      </header>
+
+
+      <!-- ================= DASHBOARD ================= -->
+
+      <section id="dashboardView" class="view">
+
+        <div class="hero-card">
+
+          <div>
+            <p class="eyebrow light">APPLICATION PIPELINE</p>
+
+            <h3>
+              Stay on top of your applications.
+            </h3>
+
+            <p>
+              Track where every opportunity stands and never lose sight
+              of your next step.
+            </p>
+          </div>
+
+          <div class="hero-orb">✦</div>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <span>Total applications</span>
+            <strong id="totalStat">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Applied</span>
+            <strong id="appliedStat">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Interviews</span>
+            <strong id="interviewStat">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Offers</span>
+            <strong id="offerStat">0</strong>
+          </div>
+
+        </div>
+
+
+        <div class="content-card">
+
+          <div class="section-heading">
+
+            <div>
+              <p class="eyebrow">RECENT ACTIVITY</p>
+              <h3>Latest applications</h3>
+            </div>
+
+            <button class="text-btn" id="viewAllBtn">
+              View all →
+            </button>
+
+          </div>
+
+          <div id="recentApplications" class="application-list">
+            <div class="empty-state">
+              Loading applications...
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= APPLICATIONS ================= -->
+
+      <section id="applicationsView" class="view hidden">
+
+        <div class="toolbar">
+
+          <div class="search-wrap">
+            <span>⌕</span>
+
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search by company or position..."
+            />
+          </div>
+
+          <select id="statusFilter">
+            <option value="">All statuses</option>
+            <option value="APPLIED">Applied</option>
+            <option value="SHORTLISTED">Shortlisted</option>
+            <option value="INTERVIEW">Interview</option>
+            <option value="REJECTED">Rejected</option>
+            <option value="OFFER">Offer</option>
+          </select>
+
+        </div>
+
+
+        <div class="content-card">
+
+          <div class="section-heading">
+
+            <div>
+              <p class="eyebrow">YOUR PIPELINE</p>
+              <h3>Applications</h3>
+            </div>
+
+            <span id="applicationCount" class="muted">
+              0 applications
+            </span>
+
+          </div>
+
+          <div id="applicationList" class="application-list"></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= EDIT APPLICATION ================= -->
+
+      <section id="editApplicationView" class="view hidden">
+
+        <div class="edit-page-header">
+
+          <div>
+
+            <p class="eyebrow">APPLICATION</p>
+
+            <h3>Edit Application</h3>
+
+            <p class="edit-subtitle">
+              Update the details of this job application.
+            </p>
+
+          </div>
+
+          <button
+            class="secondary-btn"
+            id="backToApplicationsBtn"
+          >
+            ← Back
+          </button>
+
+        </div>
+
+
+        <div class="content-card edit-card">
+
+          <form id="editApplicationForm" novalidate>
+
+            <div class="form-grid">
+
+
+              <!-- COMPANY -->
+
+              <label>
+                Company
+
+                <input
+                  name="company"
+                  required
+                />
+
+                <small
+                  class="field-error"
+                  id="editCompanyError"
+                ></small>
+
+              </label>
+
+
+              <!-- POSITION -->
+
+              <label>
+                Position
+
+                <input
+                  name="position"
+                  required
+                />
+
+                <small
+                  class="field-error"
+                  id="editPositionError"
+                ></small>
+
+              </label>
+
+
+              <!-- STATUS -->
+
+              <label>
+                Status
+
+                <select name="status">
+                  <option value="APPLIED">Applied</option>
+                  <option value="SHORTLISTED">Shortlisted</option>
+                  <option value="INTERVIEW">Interview</option>
+                  <option value="REJECTED">Rejected</option>
+                  <option value="OFFER">Offer</option>
+                </select>
+
+                <small
+                  class="field-error"
+                  id="editStatusError"
+                ></small>
+
+              </label>
+
+
+              <!-- APPLIED DATE -->
+
+              <label>
+                Applied date
+
+                <input
+                  name="appliedDate"
+                  type="date"
+                  required
+                />
+
+                <small
+                  class="field-error"
+                  id="editAppliedDateError"
+                ></small>
+
+              </label>
+
+
+              <!-- JOB URL -->
+
+              <label class="full">
+                Job URL
+
+                <input
+                  name="jobUrl"
+                  type="url"
+                />
+
+                <small
+                  class="field-error"
+                  id="editJobUrlError"
+                ></small>
+
+              </label>
+
+
+              <!-- NOTES -->
+
+              <label class="full">
+                Notes
+
+                <textarea
+                  name="notes"
+                  rows="5"
+                ></textarea>
+
+              </label>
+
+            </div>
+
+
+            <div class="form-actions">
+
+              <button
+                type="button"
+                class="secondary-btn"
+                id="cancelEditBtn"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="primary-btn"
+              >
+                Save Changes
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- ================= ADD APPLICATION MODAL ================= -->
+
+  <div
+    class="modal hidden"
+    id="applicationModal"
+  >
+
+    <div
+      class="modal-backdrop"
+      id="modalBackdrop"
+    ></div>
+
+
+    <div class="modal-card">
+
+      <button
+        class="close-btn"
+        id="closeModalBtn"
+      >
+        ×
+      </button>
+
+
+      <p class="eyebrow">
+        NEW APPLICATION
+      </p>
+
+      <h3>
+        Add a job application
+      </h3>
+
+      <p class="modal-subtitle">
+        Keep the details handy so you can follow up later.
+      </p>
+
+
+      <form id="applicationForm" novalidate>
+
+        <div class="form-grid">
+
+
+          <!-- COMPANY -->
+
+          <label>
+            Company
+
+            <input
+              name="company"
+              required
+              placeholder="e.g. Google"
+            />
+
+            <small
+              class="field-error"
+              id="companyError"
+            ></small>
+
+          </label>
+
+
+          <!-- POSITION -->
+
+          <label>
+            Position
+
+            <input
+              name="position"
+              required
+              placeholder="e.g. Backend Developer"
+            />
+
+            <small
+              class="field-error"
+              id="positionError"
+            ></small>
+
+          </label>
+
+
+          <!-- STATUS -->
+
+          <label>
+            Status
+
+            <select name="status">
+              <option value="APPLIED">Applied</option>
+              <option value="SHORTLISTED">Shortlisted</option>
+              <option value="INTERVIEW">Interview</option>
+              <option value="REJECTED">Rejected</option>
+              <option value="OFFER">Offer</option>
+            </select>
+
+            <small
+              class="field-error"
+              id="statusError"
+            ></small>
+
+          </label>
+
+
+          <!-- APPLIED DATE -->
+
+          <label>
+            Applied date
+
+            <input
+              name="appliedDate"
+              type="date"
+              required
+            />
+
+            <small
+              class="field-error"
+              id="appliedDateError"
+            ></small>
+
+          </label>
+
+
+          <!-- JOB URL -->
+
+          <label class="full">
+            Job URL
+
+            <input
+              name="jobUrl"
+              type="url"
+              placeholder="https://..."
+            />
+
+            <small
+              class="field-error"
+              id="jobUrlError"
+            ></small>
+
+          </label>
+
+
+          <!-- NOTES -->
+
+          <label class="full">
+            Notes
+
+            <textarea
+              name="notes"
+              rows="3"
+              placeholder="Anything you want to remember..."
+            ></textarea>
+
+          </label>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="secondary-btn"
+            id="cancelBtn"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary-btn"
+          >
+            Save application
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <div
+    class="toast"
+    id="toast"
+  ></div>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
